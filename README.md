@@ -1,6 +1,6 @@
 # top-journal-polish
 
-### Publication-grade academic translation & writing polish for economics, management, and quantitative social science
+### Academic translation & writing polish for economics, management, and quantitative social science
 
 > Bilingual (中文 ↔ English) translation and English-only revision aligned with the editorial
 > conventions of **AER, QJE, JPE, Econometrica, Management Science, JFE, JEEA, and REStud**
