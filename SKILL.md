@@ -157,7 +157,6 @@ Activate the relevant journal section:
 - `[JFE]` — Journal of Financial Economics
 - `[JEEA]` — Journal of the European Economic Association
 - `[REStud]` — Review of Economic Studies
-- `[JRS]` — Journal of Rural Studies
 - `[RFS]` — Review of Financial Studies
 
 ---

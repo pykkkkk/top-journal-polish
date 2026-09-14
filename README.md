@@ -3,13 +3,13 @@
 ### Publication-grade academic translation & writing polish for economics, management, and quantitative social science
 
 > Bilingual (中文 ↔ English) translation and English-only revision aligned with the editorial
-> conventions of **AER, QJE, JPE, Econometrica, Management Science, JFE, JEEA, REStud, JRS**
+> conventions of **AER, QJE, JPE, Econometrica, Management Science, JFE, JEEA, and REStud**
 > and comparable SSCI outlets. Built for empirical economists, applied econometricians, and
 > quantitative social scientists who want their prose to read like it already cleared desk review.
 
 ---
 
-![Journals](https://img.shields.io/badge/journals-10%20top%20SSCI-blue)
+![Journals](https://img.shields.io/badge/journals-8%20top%20SSCI-blue)
 ![Terminology](https://img.shields.io/badge/terminology-12%20categories%20%C2%B7%20150%2B%20terms-9c27b0)
 ![Languages](https://img.shields.io/badge/languages-中文%20%C2%B7%20English-brightgreen)
 ![Workflow](https://img.shields.io/badge/workflow-7--step%20pipeline-orange)
@@ -84,7 +84,6 @@ The skill adapts its voice and structure to the target outlet. Activate a journa
 | `[JFE]` | Journal of Financial Economics | Asset pricing / corporate finance; economic magnitudes mandatory |
 | `[JEEA]` | Journal of the European Economic Association | Clean ID + policy relevance; distributional analysis valued |
 | `[REStud]` | Review of Economic Studies | Theory + structural-empirical integration |
-| `[JRS]` | Journal of Rural Studies | Interdisciplinary, China-context friendly, accessible prose |
 | `—` | General top-journal standard | Applied when no journal is named |
 
 ---
