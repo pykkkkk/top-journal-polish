@@ -1,6 +1,6 @@
 # top-journal-polish
 
-### Academic translation & writing polish for economics, management, and quantitative social science
+### Publication-grade academic translation & writing polish for economics, management, and quantitative social science
 
 > Bilingual (中文 ↔ English) translation and English-only revision aligned with the editorial
 > conventions of **AER, QJE, JPE, Econometrica, Management Science, JFE, JEEA, and REStud**
@@ -24,7 +24,7 @@ journal-ready prose. It does **not** simply paraphrase. It enforces a strict pip
 
 1. **Classifies the text segment** (abstract, introduction, identification, results, robustness,
    mechanism, conclusion, …) and applies segment-specific rules.
-2. **Fact-checks causal-inference claims** against canonical textbooks before touching wording —
+2. **Fact-checks causal-inference claims** against a bundled, self-contained causal-facts reference before touching wording —
    a translation that is fluent but wrong is worse than one that is clumsy but correct.
 3. **Normalizes terminology** to the internationally standardized forms (e.g. *parallel trends
    assumption*, not *parallel trend hypothesis*; *instrumental variables (IV) estimation*, not
@@ -60,7 +60,7 @@ on first read.
 |---------|--------------|
 | **Three task modes** | `TR-ZH2EN` (中文→英文), `TR-EN2ZH` (英文→中文技术回译), `PO-EN` (英文-only polish) |
 | **Segment-aware rules** | Abstract, Introduction, Literature, Theory, Empirical/Identification, Results, Robustness, Mechanism, Conclusion each get their own conventions |
-| **Causal-inference fact-check** | Claims cross-referenced against *Causal Inference: What If*, *The Mixtape*, Imbens & Rubin, Angrist & Pischke, Wooldridge before revision |
+| **Causal-inference fact-check** | Claims checked against a bundled causal-facts reference (SUTVA, backdoor, collider/mediator, DID/RDD/IV assumptions) — no external textbook or connector dependency |
 | **Canonical terminology** | 12 categories, 150+ EN↔ZH pairs with explicit *avoid* columns |
 | **Journal-specific voice** | 10 outlets with signature tone, abstract length, hedge hierarchy, and prohibited patterns |
 | **AI-trace reflection** | A dedicated pass that removes LLM-typical constructions in both English and Chinese |

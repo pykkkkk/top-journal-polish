@@ -69,7 +69,7 @@ Load `references/terminology.md` for all task types.
 
 ---
 
-### Step 3 — Fact-Check Claims Against Causal Inference Expertise
+### Step 3 — Fact-Check Claims Against Causal Inference Principles
 
 Before applying terminology rules, verify the substantive correctness of the text's causal-inference claims. A translation or polish that is terminologically accurate but factually incorrect can mislead readers and undermine credibility.
 
@@ -77,25 +77,17 @@ Before applying terminology rules, verify the substantive correctness of the tex
 
 1. **Identify the causal claim(s)** — Extract the core causal statements from the user's text (e.g., "X causes Y", "Z is a mediator/confounder/collider", "the identifying assumption is ...", "SUTVA is violated because ...").
 
-2. **Cross-reference with authoritative sources** — Search the user's IMA knowledge base (`kb_id: "001a5fbec780168a"`, title: "ZephyrLiuX的知识库") using the `mcp__ima-mcp__search_knowledge` tool to verify the claim. When needed, fetch specific pages from the following textbooks in the knowledge base:
-
-   | Textbook | File ID | Primary Use |
-   |----------|---------|-------------|
-   | Hernán & Robins — *Causal Inference: What If* (hernanrobins_WhatIf_26apr24.pdf) | pdf_d11a5947f51fe97cda47c5c9ed79bc19_a90214f7313c349a1949dae56b4ef976001a5fbec780168a | DAGs, identification, mediation, causal diagram, collider, SUTVA |
-   | Cunningham — *Causal Inference: The Mixtape* (Causal_Inference_TheMixtape.pdf) | pdf_d11a5947f51fe97cda47c5c9ed79bc19_f6690e77e2805714d2a8ac533af85c07001a5fbec780168a | DID, RDD, IV, matching, causal intuition |
-   | Imbens & Rubin — *Causal Inference for Statistics, Social, and Biomedical Sciences* (Guido W. Imbens, Donald B. Rubin - Causal Inference ... .pdf) | pdf_d11a5947f51fe97cda47c5c9ed79bc19_754c44f86abe25debd972883b2b2be17001a5fbec780168a | Potential outcomes framework, assignment mechanisms |
-   | Angrist & Pischke — *基本无害的计量经济学：实证研究指南* (基本无害的计量经济学：实证研究指南.pdf) | pdf_d11a5947f51fe97cda47c5c9ed79bc19_6daefc3510fa44b965898b3977bbd5d8001a5fbec780168a | Quasi-experimental designs, identification strategies |
-   | Wooldridge — *Econometric Analysis of Cross Section and Panel Data* (Wooldridge - Cross-section and Panel Data.pdf) | pdf_d11a5947f51fe97cda47c5c9ed79bc19_e18fb47da9efb82a373982cc38d58ee9001a5fbec780168a | Panel data methods, endogeneity, selection |
+2. **Verify against the bundled fact reference** — Load `references/causal_facts.md` and check each claim against the canonical principles listed there (potential outcomes & effect types §1, DAG primitives §2, identification-strategy assumptions §3, effect interpretation §4, inference caveats §5, and the error checklist §6). This file is **self-contained**: it requires no external textbook, connector, or private knowledge base.
 
 3. **Add a "Substantive Check" row to Block B** — If the user's text contains a factual error or a misleading causal claim, add a row to the Revision Notes table with the following format:
 
    ```
-   # | 用户原文 | [Corrected text] | Substantive Check: [Textbook name] states that [correct claim]. The user's statement [what was wrong]. [Corrected to ...]. |
+   # | 用户原文 | [Corrected text] | Substantive Check: causal_facts.md §X states that [correct claim]. The user's statement [what was wrong]. [Corrected to ...]. |
    ```
 
-   If the claim is correct, include a brief verification note (e.g., "Substantive Check: Confirmed — consistent with [Textbook], Ch. [X]"). This demonstrates rigor and builds trust.
+   If the claim is correct, include a brief verification note (e.g., "Substantive Check: Confirmed — consistent with causal_facts.md §2 (DAG primitives)"). This demonstrates rigor and builds trust.
 
-4. **Fallback** — If the IMA MCP connector is unavailable or the knowledge base search returns no relevant results, use general causal-inference expertise (the agent's built-in knowledge) to assess correctness. Note in Block B: "Substantive Check: No IMA source found; verified against general causal-inference knowledge."
+4. **Fallback** — If a claim is not explicitly covered by `causal_facts.md`, assess it with general causal-inference expertise (the agent's built-in knowledge). Note in Block B: "Substantive Check: Not found in causal_facts.md; verified against general causal-inference knowledge." Do not fabricate a citation to the reference file.
 
 5. **Boundary rule** — Do NOT alter the user's original intended meaning or add content the user did not write. The fact-check step only flags *factual inaccuracies* in the text's causal claims (e.g., mistaking a collider for a mediator, claiming SUTVA holds when interference is clearly present, misstating an identifying assumption). It does not introduce new arguments.
 
@@ -255,4 +247,5 @@ The following patterns must be corrected on sight:
 ## Reference Files
 
 - `references/terminology.md` — Canonical causal-inference and econometrics terminology (EN ↔ ZH)
+- `references/causal_facts.md` — Canonical causal-inference facts/principles for the Step 3 fact-check (self-contained; no external dependency)
 - `references/journal_styles.md` — Journal-specific style rules for AER, QJE, JPE, ECTA, MS, JFE, JEEA, REStud
