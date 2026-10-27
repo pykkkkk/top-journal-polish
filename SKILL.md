@@ -1,14 +1,13 @@
 ---
 name: top-journal-polish
 description: >
-  Top-journal academic translation and writing polish for economics, management,
-  and quantitative social science. Targets AER, QJE, JPE, Econometrica, MS, JFE,
-  RFS, JEEA, REStud and comparable SSCI outlets. Handles Chinese-to-English and
-  English-to-Chinese translation with strict causal-inference / econometrics
-  terminology, and polishes abstracts, introductions, empirical-results
-  sections, robustness checks, mechanism analyses, and conclusions to match
-  top-journal editorial conventions. Trigger phrases include: 翻译, 润色, polish,
-  translate, AER/QJE/MS writing, 顶刊改写, 学术英语, 实证写作, 摘要修改, 引言润色, etc.
+  Top-journal academic translation and polish for economics, management, and
+  quantitative social science: Chinese-English translation and English-only
+  polish. Targets AER, QJE, JPE, Econometrica, MS, JFE, JEEA, REStud and
+  comparable SSCI outlets. Enforces causal-inference / econometrics terminology
+  and covers abstracts, introductions, results, robustness, mechanisms, and
+  conclusions. Triggers include: 翻译, 润色, polish, translate, AER/QJE/MS
+  writing, 顶刊改写, 学术英语, 实证写作, 摘要修改, 引言润色.
 agent_created: true
 ---
 
@@ -17,7 +16,7 @@ agent_created: true
 ## Purpose
 
 Provide publication-grade translation and writing polish aligned with the editorial conventions of
-AER, QJE, JPE, Econometrica, Management Science, JFE, RFS, JEEA, and REStud.
+AER, QJE, JPE, Econometrica, Management Science, JFE, JEEA, and REStud.
 Covers Chinese ↔ English translation and English-only polish for empirical economics,
 theoretical modeling, applied econometrics, and quantitative social-science manuscripts.
 
@@ -110,7 +109,23 @@ Critical terminology rules (override any common-language translations):
 
 ---
 
-### Step 5 — Produce Output
+### Step 5 — Enforce Neutral Register & Word Choice
+
+After terminology is fixed, police the non-technical prose. Load `references/word_choice.md` and apply its three governing rules:
+
+1. **Disciplinary priority** — a settled economics / causal-inference meaning always wins over a general-language or literary synonym.
+2. **Neutral register** — the tone must sit between literary ornament and journalistic hype; strip both.
+3. **Spectrum-aware substitution** — when replacing a word, match its intensity/affect; never silently upgrade or downgrade the emotional temperature.
+
+**Procedure:**
+- Scan each non-technical content word against the three-band register table (`word_choice.md §2`) and the intensity spectra (`§3`); move ornate and hype terms to the neutral academic band.
+- Cut assertive fillers and stacked intensifiers (`§1.4`), de-nominalize wordy constructions (`§1.5`), and calibrate reporting verbs and hedging to evidence strength (`§1.1`, `§1.3`).
+- **Offer intensity-matched alternatives**: for each word you change (or the user asks about), cite the same-spectrum replacements from `§3` with a one-line reason, so the user can choose.
+- Log every word-level change in Block B under the rationale category **Word choice / Register**.
+
+---
+
+### Step 6 — Produce Output
 
 Always output **two clearly labeled blocks**:
 
@@ -130,13 +145,14 @@ Provide a structured comment table with the following columns:
 
 Rationale entries must specify:
 - **Terminology**: why a specific term was chosen over alternatives
+- **Word choice / Register**: which neutral-band or intensity-matched alternative was chosen and why
 - **Sentence logic**: restructuring reason (passive → active, nominalization removed, etc.)
 - **Journal convention**: citation to journal-specific convention where applicable
 - **Causal language**: any upgrade from correlation language to identification language
 
 ---
 
-### Step 6 — Journal-Specific Adaptation (if requested)
+### Step 7 — Journal-Specific Adaptation (if requested)
 
 When the user names a target journal, apply the additional style rules from `references/journal_styles.md`.
 
@@ -149,13 +165,46 @@ Activate the relevant journal section:
 - `[JFE]` — Journal of Financial Economics
 - `[JEEA]` — Journal of the European Economic Association
 - `[REStud]` — Review of Economic Studies
-- `[RFS]` — Review of Financial Studies
 
 ---
 
-### Step 7 — AI-Trace Reflection (反查 AI 痕迹)
+### Step 8 — AI-Trace Reflection (反查 AI 痕迹)
 
-After producing both blocks (Block A + Block B) in Step 5, scan the entire output for the following AI-typical patterns and remove or replace them before delivering to the user.
+After producing both blocks (Block A + Block B) in Step 6, scan the entire output for the following AI-typical patterns and remove or replace them before delivering to the user.
+
+**Run the pass as a measured loop, not as a read-through.** Load
+`references/anti_ai_trace_audit.md` for the full method: five stages
+(baseline → triage → rewrite → re-measure → verify rhythm), the threshold and
+target-band table, the trace-to-fix mapping, and the pitfalls. Two scripts do
+the measuring:
+
+```bash
+python scripts/scan_ai_traces.py manuscript.tex          # structure: punctuation, pegs, templates, long sentences, rhythm
+python scripts/scan_register.py manuscript.tex --limit 8 # diction: defect bands and context probes
+python scripts/scan_detectability.py manuscript.tex      # detector-facing proxies: burstiness, formulaic, self-repeat, MTLD, hedge, paragraph-shape
+```
+
+`scan_detectability.py` measures the *statistical proxies commercial AI detectors
+actually score* and reports a `risk_index`. It is a **false-positive-risk
+diagnostic, not a detector**, and is never optimised as a target. The honesty
+boundary and the era-stratified calibration (pre-2020 vs 2021+ corpus, both
+indistinguishable) are in `references/anti_ai_trace_audit.md` §3b.
+
+Take a **baseline before editing** and re-run afterwards, then report a
+**before/after delta table** alongside Block A and Block B. Three rules govern
+the loop:
+
+1. **Density is the signal, not presence.** `respectively`, `rather than`, and a
+   colon introducing a list are legitimate journal prose. Never zero out a probe
+   to make a number look clean.
+2. **Never read a falling sentence-length stdev as success on its own.** Deleting
+   outliers and flattening the prose both lower it. Verify rhythm in the `[E]`
+   block: healthy prose keeps *adjacent pairs within ±2 words* low and
+   *≥2× length ratio* high.
+3. **The pass is a style pass.** Numbers, equations, citations, table and figure
+   content, and terminology are out of scope. Apply rewrites as exact-match
+   replacements with a `count == 1` check so partial application cannot pass
+   silently.
 
 #### English AI-Trace Checklist
 
@@ -186,7 +235,30 @@ After producing both blocks (Block A + Block B) in Step 5, scan the entire outpu
 | "与此同时" / "此外" 在每段段首 | AI 生成的段落过渡模板 | 根据逻辑关系替换为 "相对而言""相比之下""进一步说" 等更具体的连接语，或直接省略。 |
 | "综上所述" 开头的结论段 | 大量中式英文论文的 AI 改写痕迹 | 直接陈述核心结论，不需要 "综上所述" 做过渡标记。 |
 
-**Post-reflection action:** If the reflection reveals any of these patterns, revise the offending passage before delivering. Do not mention the revision in the output — the revision notes (Block B) should only document intentional changes, not self-corrections.
+**Post-reflection action:** If the reflection reveals any of these patterns, revise the offending passage before delivering. Do not mention the revision in the output — the revision notes (Block B) should only document intentional changes, not self-corrections. When the pass was driven by the scripts in Step 8, also deliver the **before/after delta table** (see `references/anti_ai_trace_audit.md` §6) and state which probes were deliberately left unchanged and why.
+
+---
+
+### Step 9 — Prosody Polish (final rhythm-and-density gate)
+
+Run a quantitative rhythm-and-density check as the **last pass before delivery**. It catches low reading comfort from rhythm and density that the terminology, register, and AI-trace passes miss.
+
+**Trigger scope.** Run this gate **only when the task is paragraph-level or longer** — i.e., the polished Block A contains **two or more sentences** after body-prose cleaning. A single-sentence request (one sentence translated or polished) is **out of scope**: the metrics are undefined or unstable on one sentence, and the gate adds no diagnostic value. For such requests, skip Step 9 and deliver directly. This gate scores **English** phonology, so run it on the English Block A produced by `PO-EN` and `TR-ZH2EN`. For `TR-EN2ZH` the Block A is Chinese, which this English-only tool cannot measure — skip Step 9 for that task type.
+
+**Do.**
+1. Save Block A to a `.md` file (or extract the body prose from a `.tex` source; the checker strips headings, tables, citations `(Author, Year)`, equations, and code fences).
+2. Run the checker:
+   ```bash
+   python scripts/prosody_check.py BLOCK_A.md
+   python scripts/prosody_check.py BLOCK_A.md --json > prosody.json   # machine-readable
+   ```
+3. Read the verdict: each metric shows its value against the band (OK / WARN / RED); any triggered red-line marker names the sentence that caused it.
+4. **Adjust, then re-run.** This is a loop: split the flagged over-long sentence, insert a short sentence to break a monotone run, vary opener rhythm to break ROBOTIC alternation, or swap a Latinate noun for a shorter word. Re-run until no RED marker remains and the WARN count is low.
+5. Deliver Block A and Block B; note in the Revision Notes that the prosody gate was run and its verdict.
+
+**Exit gate.** No RED-line marker (SLURRY / POUNDING / ROBOTIC / DENSE / FLAT). WARN items resolved or explicitly waived for a stated reason (e.g., "one 45-word sentence kept: it carries a single complex identification argument").
+
+The bands and red-line definitions live in `references/prosody_target_card.md`; the exact numeric thresholds are authoritative in `scripts/prosody_check.py`.
 
 ---
 
@@ -197,6 +269,7 @@ After producing both blocks (Block A + Block B) in Step 5, scan the entire outpu
 - Consistent tense usage within sections (results in past tense; general claims in present tense)
 - Hedging calibrated to evidence strength: "consistent with" / "suggests" / "provides evidence that" / "establishes"
 - Avoid vague intensifiers: "very," "quite," "relatively," "obviously"
+- Neutral register only: no literary/ornate diction and no journalistic hype (see `references/word_choice.md`)
 
 ### Identification Language
 - Distinguish between descriptive patterns ("is associated with") and causal claims ("increases," "reduces")
@@ -228,6 +301,8 @@ The following patterns must be corrected on sight:
 | "We use DID method to study..." | "We exploit [exogenous variation / natural experiment] in a difference-in-differences framework..." |
 | 直译 "平行趋势假设" → "parallel trend hypothesis" | → "parallel trends assumption" |
 | 直译 "工具变量" → "instrumental variable method" | → "instrumental variables (IV) estimation" / "2SLS" |
+| Literary / ornate diction ("delve," "myriad," "plethora," "burgeon") | Neutral band ("examine," "many," "increase") — see `word_choice.md §2` |
+| Journalistic hype ("skyrocketed," "plummeted," "shocking," "game-changing") | Neutral, intensity-matched ("rose sharply," "fell sharply," "notable," "substantial") — see `word_choice.md §3` |
 | Em dash `—` or colon `:` for inline explanation | Replace with parentheses, comma-restricted clause, or sentence break |
 | "that is" as clause-level restatement | Use "i.e.," or rewrite without restatement |
 | "Note that" / "It is worth noting that" at sentence start | Delete, let the factual content stand alone |
@@ -248,4 +323,17 @@ The following patterns must be corrected on sight:
 
 - `references/terminology.md` — Canonical causal-inference and econometrics terminology (EN ↔ ZH)
 - `references/causal_facts.md` — Canonical causal-inference facts/principles for the Step 3 fact-check (self-contained; no external dependency)
+- `references/word_choice.md` — Strict diction control: academic usage conventions, neutral three-band register, and intensity-matched synonym spectra
 - `references/journal_styles.md` — Journal-specific style rules for AER, QJE, JPE, ECTA, MS, JFE, JEEA, REStud
+- `references/anti_ai_trace_audit.md` — Step 8 method: the five-stage measured loop, threshold and target-band table, the detector-facing proxies (§3b) with the honesty boundary and the era-stratified calibration, trace-to-fix mapping, pitfalls, and the delta-table deliverable format
+- `references/prosody_target_card.md` — Step 9 method: the rhythm-and-density target card (bands, red-line markers, the adjustment loop) and its caveats
+
+## Scripts
+
+Standard library only, read-only, no network, no subprocess. Input accepts `.tex`, `.md`, or plain text (`-` reads stdin).
+
+- `scripts/scan_ai_traces.py <file> [--lang en|zh] [--long 45] [--json]` — structural probes: punctuation traces, transition-peg density, repeated syntactic templates, long-sentence load, and sentence-length rhythm
+- `scripts/scan_register.py <file> [--lang en|zh] [--limit 6] [--json]` — diction probes, split into *defect* bands (hype, ornate, assertive filler, over-assertive verbs, AI emphasis adverbs, wordy nominalisation) and *context* bands (self-narration, vague intensifier, precision claim, vague quantifier, repeated contrast frame)
+- `scripts/scan_detectability.py <file> [--json] [--text "..."] [selftest]` — Step 8 detector-facing false-positive-risk scanner: burstiness (sentence-length CV%), formulaic density, self-repetition %, MTLD, hedge density, paragraph-shape CV%, and a `risk_index`. **Honesty boundary: a diagnostic, NOT a detector; never optimised as a target.** Bands are era-stratified (pre-2020 vs 2021+ corpus).
+- `scripts/prosody_check.py <file> [--json] [--text "..."] [selftest]` — Step 9 rhythm-and-density gate: nPVI, %stressed, alternation, inter-stress CV, syllables/word, sentence-length stats, parallelism density, and red-line markers (SLURRY/POUNDING/ROBOTIC/DENSE/FLAT). Standard library only. `cv_words_per_sentence` rewards variation (OK ≥ 50%, RED < 35%) — it is the same quantity detectors call "burstiness".
+
